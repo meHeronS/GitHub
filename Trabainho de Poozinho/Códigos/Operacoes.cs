@@ -24,8 +24,6 @@ namespace Trabainho_de_Poozinho.Códigos
             GridDados.Columns[5].Width = 100; //Valor de Compra
             GridDados.Columns[6].Width = 100; //Valor de Venda
         }
-
-
         public void InserirVeiculo()
         {
             Veiculo NVeiculo = new Veiculo();
@@ -60,8 +58,7 @@ namespace Trabainho_de_Poozinho.Códigos
             x.ValorVenda = Convert.ToDouble(VVenda);
             x.Disponibilidade = true;
             status = GridDados.CurrentRow.Cells[7].Value.ToString();
-            MeusDados._ListarVeiculos()[GridDados.CurrentRow.Index] = x;
-            
+            MeusDados._ListarVeiculos()[GridDados.CurrentRow.Index] = x;            
         }
 
         public void ExcluirVeiculo()
@@ -115,10 +112,9 @@ namespace Trabainho_de_Poozinho.Códigos
             NCliente.EndereçoEstado = "Estado";
 
             MeusDados._AdicionarCliente(NCliente);
-            MeusDados._ListarCliente();
+            GridCliente();
 
-            //GridDados.CurrentCell = GridDados.Rows[GridDados.RowCount - 1].Cells[0];
-
+            GridDados.CurrentCell = GridDados.Rows[GridDados.RowCount - 1].Cells[0];
         }
         public void InserirClienteCell()
         {
@@ -157,6 +153,19 @@ namespace Trabainho_de_Poozinho.Códigos
                     GridDados.CurrentCell = GridDados.Rows[i].Cells[0];
                 }
             }
+        }
+        public void GridVendas()
+        {
+            GridDados.DataSource = null;
+            GridDados.DataSource = MeusDados._ListarVeiculos();
+            GridDados.ClearSelection();
+            GridDados.Columns[0].Width = 150; //Modelo
+            GridDados.Columns[1].Width = 80;  //Ano
+            GridDados.Columns[4].Width = 100; //Cor
+            GridDados.Columns[2].Width = 100; //Placa
+            GridDados.Columns[3].Width = 150; //Chassi
+            GridDados.Columns[5].Width = 100; //Valor de Compra
+            GridDados.Columns[6].Width = 100; //Valor de Venda
         }
         public void Vender()//Veiculo x, Cliente y
         {
