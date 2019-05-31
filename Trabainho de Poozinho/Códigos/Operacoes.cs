@@ -159,7 +159,8 @@ namespace Trabainho_de_Poozinho.Códigos
             GridDados.DataSource = null;
             GridDados.DataSource = MeusDados._ListarVeiculos();
             GridDados.ClearSelection();
-            GridDados.Columns[0].Width = 150; //Modelo
+            //fazer funcionar o tamanho das colums
+            GridDados.Columns[0].Width = 150; //Modelo 
             GridDados.Columns[1].Width = 80;  //Ano
             GridDados.Columns[4].Width = 100; //Cor
             GridDados.Columns[2].Width = 100; //Placa
