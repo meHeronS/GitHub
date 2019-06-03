@@ -37,12 +37,40 @@ namespace Trabainho_de_Poozinho
         }
         private void BtnExcluir_Click(object sender, EventArgs e)
         {
-
+            if (MinhasOP.ADCliente == false && MinhasOP.ADVeiculo == true && MinhasOP.ADVenda == false)
+            {
+                GridDados.DataSource = null;
+                MinhasOP.ExcluirVeiculo();
+            }
+            if (MinhasOP.ADCliente == true && MinhasOP.ADVeiculo == false && MinhasOP.ADVenda == false)
+            {
+                GridDados.DataSource = null;
+                MinhasOP.ExcluirCliente();
+            }
+            if (MinhasOP.ADCliente == false && MinhasOP.ADVeiculo == false && MinhasOP.ADVenda == true)
+            {
+                GridDados.DataSource = null;
+                MinhasOP.ExcluirVenda();
+            }
         }
 
         private void BtnAlterar_Click(object sender, EventArgs e)
         {
-
+            if (MinhasOP.ADCliente == false && MinhasOP.ADVeiculo == true && MinhasOP.ADVenda == false)
+            {
+                GridDados.DataSource = null;
+                MinhasOP.AlterarVeiculo();
+            }
+            if (MinhasOP.ADCliente == true && MinhasOP.ADVeiculo == false && MinhasOP.ADVenda == false)
+            {
+                GridDados.DataSource = null;
+                MinhasOP.AlterarCliente();
+            }
+            if (MinhasOP.ADCliente == false && MinhasOP.ADVeiculo == false && MinhasOP.ADVenda == true)
+            {
+                GridDados.DataSource = null;
+                MinhasOP.AlterarVenda();
+            }
         }
 
         private void BtnPesquisa_Click(object sender, EventArgs e)
@@ -56,8 +84,69 @@ namespace Trabainho_de_Poozinho
                 MinhasOP.PesquisarCliente();
             }
         }
-        private void GridDados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void BtnVeículos_Click(object sender, EventArgs e)//botao de controle de veiculos
         {
+            //ao clicar no botao limpa grid ativa o botao bool e ativa a possibiliadade de adicionar e remover e etc das objetos
+            GridDados.DataSource = null; //Limpar dados do grid
+            //define os booleanos 
+            MinhasOP.ADVeiculo = true;
+            MinhasOP.ADCliente = false;
+            MinhasOP.ADVenda = false;
+            //carrega o grid dos veículos
+            MinhasOP.GridVeiculos();
+        }
+        private void BtnCliente_Click(object sender, EventArgs e) //botao de controle de clientes
+        {
+            //ao clicar no botao limpa grid ativa o botao bool e ativa a possibiliadade de adicionar e remover e etc das objetos
+            GridDados.DataSource = null; //limpa o grid
+            //define os booleanos
+            MinhasOP.ADVeiculo = false;
+            MinhasOP.ADCliente = true;
+            MinhasOP.ADVenda = false;
+            //carrega o grid dos clientes
+            MinhasOP.GridCliente();
+        }
+        private void BtnVenda_Click(object sender, EventArgs e) //botao de fazer vendas
+        {
+            //ao clicar no botao limpa grid ativa o botao bool e ativa a possibiliadade de adicionar e remover e etc das objetos
+            GridDados.DataSource = null;//limpa os dados do grid
+            //define os booleanos das vendas
+            MinhasOP.ADCliente = false;
+            MinhasOP.ADVeiculo = false;
+            MinhasOP.ADVenda = true;
+        }
+        private void BtnRelCompra_Click(object sender, EventArgs e)//botao de relatorio de compra de veiculos
+        {
+            //limpa o grid
+            GridDados.DataSource = null;
+            //lista todos os veiculos comprados
+            MinhasOP.RelatorioCompras();
+        }   
+
+        private void BtnRelVenda_Click(object sender, EventArgs e)//botao de relatorio de vendas
+        {
+            //limpa o grid
+            GridDados.DataSource = null;
+            //carrega todas as vendas feitas
+            MinhasOP.RelatorioVendas();
+        }
+
+        private void BtnRelGeral_Click(object sender, EventArgs e)//botao de relatorio de todas as vendas e compras de veiculos e lucro final
+        {
+            //limpa todo o grid
+            GridDados.DataSource = null;
+            //carrega tudo que ja foi feito
+            MinhasOP.RelatorioGeral();
+        }
+
+        private void ConcessionáriaProgram_Load(object sender, EventArgs e) //tudo que inicia quando o programa é aberto
+        {
+            MinhasOP = new Códigos.Operacoes();
+        }
+
+        private void GridDados_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //as possibilidades feitas nos botoes ao serem clicados
             if (MinhasOP.ADCliente == false && MinhasOP.ADVeiculo == true && MinhasOP.ADVenda == false)
             {
                 MinhasOP.InserirVeiculoCell();
@@ -71,50 +160,5 @@ namespace Trabainho_de_Poozinho
                 MinhasOP.VenderCell();
             }
         }
-        private void BtnVeículos_Click(object sender, EventArgs e)//botao de controle de veiculos
-        {
-            //ao clicar no botao limpa grid ativa o botao bool e ativa a possibiliadade de adicionar e remover e etc das objetos
-            GridDados.DataSource = null; //Limpar dados do grid
-            MinhasOP.ADVeiculo = true;
-            MinhasOP.ADCliente = false;
-            MinhasOP.ADVenda = false;
-            MinhasOP.GridVeiculos();
-        }
-        private void BtnCliente_Click(object sender, EventArgs e) //botao de controle de clientes
-        {
-            GridDados.DataSource = null;
-            MinhasOP.ADVeiculo = false;
-            MinhasOP.ADCliente = true;
-            MinhasOP.ADVenda = false;
-            MinhasOP.GridCliente();
-        }
-        private void BtnVenda_Click(object sender, EventArgs e) //botao de fazer vendas
-        {
-            GridDados.DataSource = null;
-            MinhasOP.ADCliente = false;
-            MinhasOP.ADVeiculo = false;
-            MinhasOP.ADVenda = true;
-        }
-        private void BtnRelCompra_Click(object sender, EventArgs e)//botao de relatorio de compra de veiculos
-        {
-            GridDados.DataSource = null;
-        }   
-
-        private void BtnRelVenda_Click(object sender, EventArgs e)//botao de relatorio de vendas
-        {
-            GridDados.DataSource = null;
-            MinhasOP.RelatorioVendas();
-        }
-
-        private void BtnRelGeral_Click(object sender, EventArgs e)//botao de relatorio de todas as vendas e compras de veiculos e lucro final
-        {
-
-            GridDados.DataSource = null;
-        }
-
-        private void ConcessionáriaProgram_Load(object sender, EventArgs e) // o q o programa inicia mostrando
-        {
-            MinhasOP = new Códigos.Operacoes();
-        }        
     }
 }

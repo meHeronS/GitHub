@@ -182,12 +182,13 @@
             this.GridDados.Name = "GridDados";
             this.GridDados.Size = new System.Drawing.Size(1082, 580);
             this.GridDados.TabIndex = 2;
-            this.GridDados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridDados_CellContentClick);
+            this.GridDados.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridDados_CellEndEdit);
             // 
             // ConcessionáriaProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1082, 631);
             this.Controls.Add(this.GridDados);
             this.Controls.Add(this.BtnAções);

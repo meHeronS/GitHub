@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Trabainho_de_Poozinho.Códigos
 {
@@ -13,9 +18,12 @@ namespace Trabainho_de_Poozinho.Códigos
         }
         public void GridVeiculos()
         {
+            //limpa tudo que esta no grid
             GridDados.DataSource = null;
+            //recebe novos valores no grid
             GridDados.DataSource = MeusDados._ListarVeiculos();
             GridDados.ClearSelection();
+            //gera as colunas
             GridDados.Columns[0].Width = 150; //Modelo
             GridDados.Columns[1].Width = 80;  //Ano
             GridDados.Columns[4].Width = 100; //Cor
@@ -39,14 +47,16 @@ namespace Trabainho_de_Poozinho.Códigos
 
             MeusDados._AdicionarVeiculo(NVeiculo);
             GridVeiculos();
-            
+
             GridDados.CurrentCell = GridDados.Rows[GridDados.RowCount - 1].Cells[0];
         }
         public void InserirVeiculoCell()
         {
             Veiculo x = new Veiculo();
-            string status, VCompra, VVenda; 
+
+            string status, VCompra, VVenda;
             status = "Disponível";
+
             x.Modelo = GridDados.CurrentRow.Cells[0].Value.ToString();
             x.Ano = GridDados.CurrentRow.Cells[1].Value.ToString();
             x.Cor = GridDados.CurrentRow.Cells[2].Value.ToString();
@@ -58,7 +68,7 @@ namespace Trabainho_de_Poozinho.Códigos
             x.ValorVenda = Convert.ToDouble(VVenda);
             x.Disponibilidade = true;
             status = GridDados.CurrentRow.Cells[7].Value.ToString();
-            MeusDados._ListarVeiculos()[GridDados.CurrentRow.Index] = x;            
+            MeusDados._ListarVeiculos()[GridDados.CurrentRow.Index] = x;
         }
 
         public void ExcluirVeiculo()
@@ -72,7 +82,7 @@ namespace Trabainho_de_Poozinho.Códigos
         public void PesquisarVeiculo()
         {
             string Busca = BtnPesquisa.Text;
-           
+
             BtnPesquisa.Text = "";
 
             GridDados.ClearSelection();
@@ -132,7 +142,7 @@ namespace Trabainho_de_Poozinho.Códigos
         }
         public void ExcluirCliente()
         {
-
+            MeusDados._ExcluirCliente();
         }
         public void AlterarCliente()
         {
@@ -173,15 +183,24 @@ namespace Trabainho_de_Poozinho.Códigos
             Vendas NVenda = new Vendas();
 
             NVenda.ValorVenda = double.Parse(Console.ReadLine());
-           // NVenda.Lucro = x.ValorVenda - NVenda.ValorVenda;
-           // NVenda.Modelo = x.Modelo;
-           // NVenda.Placa = x.Placa;
-           // NVenda.NCliente = y.Nome;
-           // NVenda.FormaPag = Console.ReadLine();
+            // NVenda.Lucro = x.ValorVenda - NVenda.ValorVenda;
+            // NVenda.Modelo = x.Modelo;
+            // NVenda.Placa = x.Placa;
+            // NVenda.NCliente = y.Nome;
+            // NVenda.FormaPag = Console.ReadLine();
 
             // x.Disponibilidade = false;
 
             MeusDados._AdicionarVenda(NVenda);
+        }
+
+        public void ExcluirVenda()
+        {
+            MeusDados._ExcluirVenda();
+        }
+        public void AlterarVenda()
+        {
+
         }
 
         public void RelatorioCompras()

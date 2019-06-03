@@ -25,32 +25,37 @@ namespace Trabainho_de_Poozinho.Códigos
         }
         public void _AdicionarVeiculo(Veiculo x)
         {
+            //adicionar veiculo
             _LVeiculos.Add(x);
         }
 
         public void _AlterarVeiculo(Veiculo x)
         {
+            //mudar dados veículo
            
         }
 
         public void _ExcluirVeiculo(Veiculo x)
         {
-            _LVendas.RemoveAt(GridDados.CurrentRow.Index);
+            //escluir veiculo
+            _LVeiculos.RemoveAt(GridDados.CurrentRow.Index);
         }
 
         public ArrayList _ListarVeiculos()
         {
+            //listar todos os veiculos
             return _LVeiculos;
         }
 
         public void _AdicionarCliente(Cliente x)
         {
+            //adcionar veiculo
             _LClientes.Add(x);
         }
 
         public void _AlterarCliente(Veiculo x)
         {
-
+            //fazer alterações no cliente
         }
 
         public void _ExcluirCliente()
@@ -66,6 +71,11 @@ namespace Trabainho_de_Poozinho.Códigos
         public void _AdicionarVenda(Vendas x)
         {
             _LVendas.Add(x);
+        }
+        public void _ExcluirVenda()
+        {
+            _LVendas.RemoveAt(GridDados.CurrentRow.Index);
+
         }
         public ArrayList _RelatorioVendas()
         {
