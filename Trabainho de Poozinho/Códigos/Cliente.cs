@@ -8,7 +8,6 @@ namespace Trabainho_de_Poozinho
 {
     public class Cliente
     {
-
         private string nome;
         private string rg;
         private string cpf;

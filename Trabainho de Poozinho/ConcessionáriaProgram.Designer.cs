@@ -177,10 +177,11 @@
             // 
             this.GridDados.BackgroundColor = System.Drawing.Color.LightGray;
             this.GridDados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GridDados.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GridDados.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.GridDados.Location = new System.Drawing.Point(0, 53);
+            this.GridDados.Location = new System.Drawing.Point(0, 50);
             this.GridDados.Name = "GridDados";
-            this.GridDados.Size = new System.Drawing.Size(1082, 580);
+            this.GridDados.Size = new System.Drawing.Size(1082, 581);
             this.GridDados.TabIndex = 2;
             this.GridDados.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridDados_CellEndEdit);
             // 

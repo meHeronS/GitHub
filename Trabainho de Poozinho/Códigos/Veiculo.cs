@@ -2,7 +2,6 @@
 {
     public class Veiculo
     {
-
         private string modelo;
         private string chassi;
         private string placa;
