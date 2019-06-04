@@ -24,7 +24,7 @@ namespace Trabainho_de_Poozinho
         }
 
         //Ações do Grid
-        private void GridDados_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void GridDados_CellEndEdit(object sender, DataGridViewCellEventArgs e) //para edita na celula que é gerada
         {
             //as possibilidades feitas nos botoes ao serem clicados
             if (MinhasOP.ADCliente == false && MinhasOP.ADVeiculo == true && MinhasOP.ADVenda == false)
@@ -122,7 +122,7 @@ namespace Trabainho_de_Poozinho
             MinhasOP.ADCliente = false;
             MinhasOP.ADVenda = false;
             //carrega o grid dos veículos
-            //MinhasOP.GridVeiculos();
+            MinhasOP.GridVeiculos();
         }
         private void BtnCliente_Click(object sender, EventArgs e) //botao de controle de clientes
         {
