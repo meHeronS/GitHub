@@ -1,16 +1,14 @@
-public int LerXMLAlunos()
+public int SalvarXMLAlunos()
         {
-            FileStream Arquivo = new FileStream(@"D:\CadastroAlunos.xml", FileMode.Open);
+            TextWriter MeuWriter = new StreamWriter(@"D:\CadastroAlunos.xml");
 
-            Aluno[] ListaAlunoVetor = (Aluno[])Cadastro.ToArray(typeof(Aluno));
+            Aluno[] ListaAlunoVetor = ((Aluno[])Cadastro.ToArray(typeof(Aluno)));
 
-            XmlSerializer Desserialização = new XmlSerializer(ListaAlunoVetor.GetType());
+            XmlSerializer Serialização = new XmlSerializer(ListaAlunoVetor.GetType());
 
-            ListaAlunoVetor = (Aluno[])Desserialização.Deserialize(Arquivo);
+            Serialização.Serialize(MeuWriter, ListaAlunoVetor);
 
-            Cadastro.Clear();
-
-            Cadastro.AddRange(ListaAlunoVetor);
+            MeuWriter.Close();
 
             return Cadastro.Count;
         }
