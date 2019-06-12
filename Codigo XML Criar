@@ -1,0 +1,16 @@
+public int LerXMLAlunos()
+        {
+            FileStream Arquivo = new FileStream(@"D:\CadastroAlunos.xml", FileMode.Open);
+
+            Aluno[] ListaAlunoVetor = (Aluno[])Cadastro.ToArray(typeof(Aluno));
+
+            XmlSerializer Desserialização = new XmlSerializer(ListaAlunoVetor.GetType());
+
+            ListaAlunoVetor = (Aluno[])Desserialização.Deserialize(Arquivo);
+
+            Cadastro.Clear();
+
+            Cadastro.AddRange(ListaAlunoVetor);
+
+            return Cadastro.Count;
+        }
