@@ -1,8 +1,8 @@
-public int SalvarXMLAlunos()
+private int XML_Salvar(object sender, EventArgs e)
         {
-            TextWriter MeuWriter = new StreamWriter(@"D:\CadastroAlunos.xml");
+            TextWriter MeuWriter = new StreamWriter(@"C:\RelatorioFinal.xml");
 
-            Aluno[] ListaAlunoVetor = ((Aluno[])Cadastro.ToArray(typeof(Aluno)));
+            Codes.RelatorioFinal[] ListaAlunoVetor = ((Codes.RelatorioFinal[])_LRelFinal.ToArray(typeof(Codes.RelatorioFinal)));
 
             XmlSerializer Serialização = new XmlSerializer(ListaAlunoVetor.GetType());
 
@@ -10,5 +10,5 @@ public int SalvarXMLAlunos()
 
             MeuWriter.Close();
 
-            return Cadastro.Count;
+            return _LRelFinal.Count;
         }
