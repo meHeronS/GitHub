@@ -2,7 +2,7 @@ private int XML_Salvar(object sender, EventArgs e)
         {
             TextWriter MeuWriter = new StreamWriter(@"C:\RelatorioFinal.xml");
 
-            Codes.RelatorioFinal[] ListaAlunoVetor = ((Codes.RelatorioFinal[])_LRelFinal.ToArray(typeof(Codes.RelatorioFinal)));
+            Codes.RelatorioFinal[] ListaRelFinal = ((Codes.RelatorioFinal[])_LRelFinal.ToArray(typeof(Codes.RelatorioFinal)));
 
             XmlSerializer Serialização = new XmlSerializer(ListaAlunoVetor.GetType());
 
