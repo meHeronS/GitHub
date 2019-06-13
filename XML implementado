@@ -1,3 +1,16 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+
 namespace ConcessiornariaGHO
 {
     public partial class GHOProgram : Form
@@ -28,7 +41,7 @@ namespace ConcessiornariaGHO
             _LRelVendas = new ArrayList();
         }        
         //Açoes XML
-        public void XML_Salvar() //tem que fazer funcionar com o arraylist
+        public void XML_Salvar()
         {
             TextWriter MeuWriter = new StreamWriter(@"C:\RelatorioFinal.xml");
 
@@ -56,7 +69,7 @@ namespace ConcessiornariaGHO
 
             MeuWriter.Close();
         }
-        public void AbrirXML() //tem q ser void para retornar todos os arrayslist 
+        public void AbrirXML() //tem q ser void para retornar todos os arrays
         {
             FileStream Arquivo = new FileStream(@"C:\RelatorioFinal.xml", FileMode.Open);
 
@@ -551,3 +564,4 @@ namespace ConcessiornariaGHO
         }        
     }
 } //final forms
+
