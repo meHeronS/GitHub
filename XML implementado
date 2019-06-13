@@ -1,0 +1,553 @@
+namespace ConcessiornariaGHO
+{
+    public partial class GHOProgram : Form
+    {
+        private ArrayList _LClientes = new ArrayList();       //array de clientes
+        private ArrayList _LVeiculos = new ArrayList();       //array de veiculos
+        private ArrayList _LVendas = new ArrayList();         //array de vendas
+        private ArrayList _LRelVendas = new ArrayList();      //array do relatorio de vendas
+        private ArrayList _LRelVeiculos = new ArrayList();    //array do relatorio de veiculos
+        private ArrayList _LRelFinal = new ArrayList();       //array do relatorio de toda movimentação
+        public bool ADVeiculos, ADCliente, ADVenda; //para definir cada qual objeto a ser usado
+
+        public GHOProgram()
+        {
+            InitializeComponent();
+        }
+
+        private void GHO_Load(object sender, EventArgs e)
+        {
+            ADVeiculos = false;
+            ADCliente = false;
+            ADVenda = false;
+            _LClientes = new ArrayList();
+            _LVeiculos = new ArrayList();
+            _LVendas = new ArrayList();
+            _LRelVeiculos = new ArrayList();
+            _LRelFinal = new ArrayList();
+            _LRelVendas = new ArrayList();
+        }        
+        //Açoes XML
+        public void XML_Salvar() //tem que fazer funcionar com o arraylist
+        {
+            TextWriter MeuWriter = new StreamWriter(@"C:\RelatorioFinal.xml");
+
+            Codes.RelatorioFinal ListaRelFinal = ((Codes.RelatorioFinal)_LRelFinal.ToArray(typeof(Codes.RelatorioFinal)));
+            Codes.RelatorioVeiculos ListaRelVeiculos = ((Codes.RelatorioVeiculos)_LRelVeiculos.ToArray(typeof(Codes.RelatorioVeiculos)));
+            Codes.RelatorioVendas ListaRelatorioVendas = ((Codes.RelatorioVendas)_LRelVendas.ToArray(typeof(Codes.RelatorioVendas)));
+            Codes.Clientes ListaClientes = ((Codes.Clientes)_LClientes.ToArray(typeof(Codes.Clientes)));
+            Codes.Veiculos ListaVeiculos = ((Codes.Veiculos)_LVeiculos.ToArray(typeof(Codes.Veiculos)));
+            Codes.Vender ListaVendas = ((Codes.Vender<>)_LVendas.ToArray(typeof(Codes.Vender)));
+
+            XmlSerializer SerializaçãoRelFinal = new XmlSerializer(ListaRelFinal.GetType());
+            XmlSerializer SerializaçãoRelVeiculos = new XmlSerializer(ListaRelVeiculos.GetType());
+            XmlSerializer SerializaçãoRelVendas = new XmlSerializer(ListaRelatorioVendas.GetType());
+            XmlSerializer SerializaçãoClientes = new XmlSerializer(ListaClientes.GetType());
+            XmlSerializer SerializaçãoVeiculos = new XmlSerializer(ListaVeiculos.GetType());
+            XmlSerializer SerializaçãoVendas = new XmlSerializer(ListaVendas.GetType());
+
+            SerializaçãoRelFinal.Serialize(MeuWriter, _LRelFinal);
+            SerializaçãoRelVeiculos.Serialize(MeuWriter, _LRelVeiculos);
+            SerializaçãoRelVendas.Serialize(MeuWriter, _LRelVendas);
+            SerializaçãoClientes.Serialize(MeuWriter, _LClientes);
+            SerializaçãoVeiculos.Serialize(MeuWriter, _LVeiculos);
+            SerializaçãoVendas.Serialize(MeuWriter, _LVendas);
+
+
+            MeuWriter.Close();
+        }
+        public void AbrirXML() //tem q ser void para retornar todos os arrayslist 
+        {
+            FileStream Arquivo = new FileStream(@"C:\RelatorioFinal.xml", FileMode.Open);
+
+            Codes.RelatorioFinal ListaRelFinal = (Codes.RelatorioFinal)_LRelFinal.ToArray(typeof(Codes.RelatorioFinal));
+            Codes.RelatorioVeiculos ListaRelVeiculos = (Codes.RelatorioVeiculos)_LRelVeiculos.ToArray(typeof(Codes.RelatorioVeiculos));
+            Codes.RelatorioVendas ListaRelatorioVendas = (Codes.RelatorioVendas)_LRelVendas.ToArray(typeof(Codes.RelatorioVendas));
+            Codes.Clientes ListaClientes = (Codes.Clientes)_LClientes.ToArray(typeof(Codes.Clientes));
+            Codes.Veiculos ListaVeiculos = (Codes.Veiculos)_LVeiculos.ToArray(typeof(Codes.Veiculos));
+            Codes.Vender ListaVendas = (Codes.Vender)_LVendas.ToArray(typeof(Codes.Vender));
+
+            XmlSerializer DesserializaçãoRelFinal = new XmlSerializer(ListaRelFinal.GetType());
+            XmlSerializer DesserializaçãoRelVeiculos = new XmlSerializer(ListaRelVeiculos.GetType());
+            XmlSerializer DesserializaçãoRelVendas = new XmlSerializer(ListaRelatorioVendas.GetType());
+            XmlSerializer DesserializaçãoClientes = new XmlSerializer(ListaClientes.GetType());
+            XmlSerializer DesserializaçãoVeiculos = new XmlSerializer(ListaVeiculos.GetType());
+            XmlSerializer DesserializaçãoVendas = new XmlSerializer(ListaVendas.GetType());
+
+            ListaRelFinal = (Codes.RelatorioFinal)DesserializaçãoRelFinal.Deserialize(Arquivo);
+            ListaRelVeiculos = (Codes.RelatorioVeiculos)DesserializaçãoRelVeiculos.Deserialize(Arquivo);
+            ListaRelatorioVendas = (Codes.RelatorioVendas)DesserializaçãoRelVendas.Deserialize(Arquivo);
+            ListaClientes = (Codes.Clientes)DesserializaçãoClientes.Deserialize(Arquivo);
+            ListaVeiculos = (Codes.Veiculos)DesserializaçãoVeiculos.Deserialize(Arquivo);
+            ListaVendas = (Codes.Vender)DesserializaçãoVendas.Deserialize(Arquivo);
+            
+            _LRelFinal.Clear();
+            _LRelVeiculos.Clear();
+            _LRelVendas.Clear();
+            _LClientes.Clear();
+            _LVeiculos.Clear();
+            _LVendas.Clear();
+
+            _LRelFinal.AddRange(ListaRelFinal);
+            _LRelVeiculos.AddRange(ListaRelVeiculos);
+            _LRelVendas.AddRange(ListaRelatorioVendas);
+            _LClientes.AddRange(ListaClientes);
+            _LVeiculos.AddRange(ListaVeiculos);
+            _LVendas.AddRange(ListaVendas);            
+        }
+
+
+        //Ações dos Botões de Tipo de Objeto
+        private void BtnVeiculos_Click(object sender, EventArgs e)
+        {
+            //define os booleanos 
+            ADVeiculos = true;
+            ADCliente = false;
+            ADVenda = false;
+            //GridDados = null;
+            InserirVeiculo();
+            AbrirXML();
+            //carrega o grid dos veículos
+            GridVeiculos();
+        }
+        private void BtnClientes_Click(object sender, EventArgs e)
+        {
+            //define os booleanos
+            ADVeiculos = false;
+            ADCliente = true;
+            ADVenda = false;
+            //GridDados = null;
+            InserirCliente();
+            AbrirXML();
+            //carrega o grid dos clientes
+            GridCliente();
+        }
+        private void BtnVendas_Click(object sender, EventArgs e)
+        {
+            ADCliente = false;
+            ADVeiculos = false;
+            ADVenda = true;
+            //GridDados = null;
+            //carrega o grid de executar a venda
+            Vender();
+            AbrirXML();
+            GridVendas();
+        }
+        private void BtnRelatorioVeiculos_Click(object sender, EventArgs e)
+        {
+            ADVeiculos = false;
+            ADCliente = false;
+            ADVenda = false;
+            //GridDados = null;
+            //carrega o grid de executar a venda
+            RelatorioVeiculos();
+            AbrirXML();
+        }
+        private void BtnRelVendas_Click(object sender, EventArgs e)
+        {
+            ADVeiculos = false;
+            ADCliente = false;
+            ADVenda = false;
+            //GridDados = null;
+            //carrega o grid de executar a venda
+            RelatorioVendas();
+            AbrirXML();
+        }
+        private void BtnRelFinal_Click(object sender, EventArgs e)
+        {
+            ADVeiculos = false;
+            ADCliente = false;
+            ADVenda = false;
+            //carrega o grid de executar a venda
+            RelatorioGeral();
+            AbrirXML();
+        }
+
+        //Ações dos botões de ação
+        //Botao Adcionar Objeto
+        private void BtnAdicionar_Click(object sender, EventArgs e)
+        {
+            if (ADCliente == false && ADVeiculos == true && ADVenda == false) // para adicionar veiculo
+            {
+                InserirVeiculo();
+            }
+            if (ADCliente == true && ADVeiculos == false && ADVenda == false) //para adicionar veiculo
+            {
+                InserirCliente();
+            }
+            if (ADCliente == false && ADVeiculos == false && ADVenda == true) //para adicionar venda
+            {
+                Vender();
+            }
+        }
+        //Botao Excluir Objeto
+        private void BtnExcluir_Click(object sender, EventArgs e)
+        {
+            if (ADCliente == false && ADVeiculos == true && ADVenda == false)
+            {
+                ExcluirVeiculo();
+            }
+            if (ADCliente == true && ADVeiculos == false && ADVenda == false)
+            {
+                ExcluirCliente();
+            }
+            if (ADCliente == false && ADVeiculos == false && ADVenda == true)
+            {
+                ExcluirVenda();
+            }
+        }
+        //Botao para alterar objeto
+        private void BtnAlterar_Click(object sender, EventArgs e)
+        {
+            if (ADCliente == false && ADVeiculos == true && ADVenda == false)
+            {
+                AlterarVeiculo();
+            }
+            if (ADCliente == true && ADVeiculos == false && ADVenda == false)
+            {
+                AlterarCliente();
+            }
+            if (ADCliente == false && ADVeiculos == false && ADVenda == true)
+            {
+                AlterarVenda();
+            }
+        }
+        //Botao de Pesquisa
+        private void BtnPesquisa_Click(object sender, EventArgs e)
+        {
+            if (ADCliente == false && ADVeiculos == true && ADVenda == false)
+            {
+                PesquisarVeiculo();
+            }
+            if (ADCliente == true && ADVeiculos == false && ADVenda == false)
+            {
+                PesquisarCliente();
+            }
+            if (ADCliente == false && ADVeiculos == false && ADVenda == true)
+            {
+                PesquisarVenda();
+            }
+        }
+
+        //Ações do Grid
+        public void GridVeiculos() //Metodo para carregar os dados do grid
+        {
+            //Limpa os dados já contidos no grid
+            GridDados.DataSource = null;
+            //Recebe novos Valores - arraylist dos veiculos
+            GridDados.DataSource = _LVeiculos;
+            GridDados.ClearSelection();
+            //Gera as Colunas e preenche com os dados contidos no arraylist de veiculos            
+            GridDados.Columns[0].Width = 100; //Modelo
+            GridDados.Columns[1].Width = 100; //Chassi
+            GridDados.Columns[4].Width = 100; //Placa
+            GridDados.Columns[2].Width = 100; //Cor
+            GridDados.Columns[3].Width = 100; //Ano
+            GridDados.Columns[5].Width = 100; //Valor de Compra
+            GridDados.Columns[6].Width = 100; //Disponibilidade
+        }
+        public void GridCliente()
+        {
+            GridDados.DataSource = null;
+            GridDados.DataSource = _LClientes;
+            GridDados.ClearSelection();
+            GridDados.Columns[0].Width = 100; //Modelo
+            GridDados.Columns[1].Width = 100;  //Ano
+            GridDados.Columns[4].Width = 100; //Cor
+            GridDados.Columns[2].Width = 100; //Placa
+            GridDados.Columns[3].Width = 100; //Chassi
+            GridDados.Columns[5].Width = 100; //Valor de Compra
+            GridDados.Columns[6].Width = 100; //Valor de Venda
+
+        }
+        public void GridVendas()
+        {
+            GridDados.DataSource = null;
+            GridDados.DataSource = _LVendas;
+            GridDados.ClearSelection();
+            //fazer funcionar o tamanho das colums
+            GridDados.Columns[0].Width = 100; //Cliente 
+            GridDados.Columns[1].Width = 100; //Modelo
+            GridDados.Columns[4].Width = 100; //Placa
+            GridDados.Columns[2].Width = 100; //Ano
+            GridDados.Columns[3].Width = 100; //Valor Venda
+            GridDados.Columns[5].Width = 100; //Forma Pagamento
+        }//operações relatorio de compras de veiculos
+        public void RelatorioVeiculos()
+        {
+            GridDados.DataSource = null;
+            GridDados.DataSource = _LRelVeiculos;
+            GridDados.ClearSelection();
+            GridDados.Columns[0].Width = 100; //Modelo
+            GridDados.Columns[1].Width = 100; //Ano
+            GridDados.Columns[4].Width = 100; //Cor
+            GridDados.Columns[2].Width = 100; //Placa
+            GridDados.Columns[5].Width = 100; //Valor de Compra
+            GridDados.Columns[6].Width = 100; //Valor de Venda
+        }
+
+        //operações relatorio de veiculos
+        public void RelatorioVendas()
+        {
+            GridDados.DataSource = null;
+            GridDados.DataSource = _LRelVendas;
+            GridDados.ClearSelection();
+            GridDados.Columns[0].Width = 100; //Cliente
+            GridDados.Columns[1].Width = 100; //Modelo
+            GridDados.Columns[2].Width = 100; //Valor
+            GridDados.Columns[3].Width = 100; //Pagamento           
+        }
+
+        //operações relatorio geral
+        public void RelatorioGeral() //imprime todas as compras e vendas e mostra o lucro final
+        {
+            GridDados.DataSource = null;
+            GridDados.DataSource = _LRelFinal; //receber veiculos e clientes
+            GridDados.ClearSelection();
+            GridDados.Columns[0].Width = 100; //Modelo
+            GridDados.Columns[1].Width = 100; //Valor Compra
+            GridDados.Columns[2].Width = 100; //Valor Venda  
+            foreach (Codes.RelatorioFinal x in _LRelFinal) //fazer a verificação de todos os veiculos no arraylist
+            {
+                double LucroFinal;
+
+                LucroFinal = x.ValorVenda - x.ValorCompra;
+
+                StsLucro.Text = LucroFinal.ToString("F2");
+            }
+        }
+
+        private void GridDados_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //onde sao feitas as alterações de acordo com os booleanos
+            if (ADCliente == false && ADVeiculos == true && ADVenda == false)
+            {
+                InserirVeiculosCell();  //modificação na célula
+            }
+            if (ADCliente == true && ADVeiculos == false && ADVenda == false)
+            {
+                InserirClienteCell();  //modificação na célula
+            }
+            if (ADCliente == false && ADVeiculos == false && ADVenda == true)
+            {
+                VenderCell();  //modificação na célula
+            }
+        }
+
+        //Veiculos
+        public void InserirVeiculo() //metodo para adicionar um veiculo
+        {
+            Codes.Veiculos NVeiculo = new Codes.Veiculos(); // adicionar um novo veiculo
+            Codes.RelatorioVeiculos ContVeic = new Codes.RelatorioVeiculos(); // ter um controle de veiculos
+
+            //salva as informações do veículo a partir do grid
+            ContVeic.Modelo = NVeiculo.Modelo = "Modelo do veículo";
+            NVeiculo.Chassi = "Chassi";
+            ContVeic.Placa = NVeiculo.Placa = "Placa";
+            ContVeic.Cor = NVeiculo.Cor = "Cor";
+            ContVeic.Ano = NVeiculo.Ano = "Ano";
+            ContVeic.Valorcompra = NVeiculo.ValorCompra = 0;
+            NVeiculo.Disponibilidade = true;
+
+            _LVeiculos.Add(NVeiculo); //cahama o metodo nos dados e adiciona no arraylist de dados de veiculos
+            _LRelVeiculos.Add(ContVeic); //controle de veiculos adicionados
+
+            XML_Salvar();
+            GridVeiculos(); //recarrega o grid com os novos dados
+
+            GridDados.CurrentCell = GridDados.Rows[GridDados.RowCount - 1].Cells[0]; //para fazer alguma coisa na linha exatamente igual ao exemplo do bernardo
+        }
+        public void InserirVeiculosCell() //Inserir dados veiculo na celula
+        {
+            Codes.Veiculos x = new Codes.Veiculos();
+
+            string status, VCompra, VVenda;
+            status = "Disponível";
+
+            x.Modelo = GridDados.CurrentRow.Cells[0].Value.ToString();
+            x.Chassi = GridDados.CurrentRow.Cells[4].Value.ToString();
+            x.Placa = GridDados.CurrentRow.Cells[3].Value.ToString();
+            x.Cor = GridDados.CurrentRow.Cells[2].Value.ToString();
+            x.Ano = GridDados.CurrentRow.Cells[1].Value.ToString();
+            VCompra = GridDados.CurrentRow.Cells[5].Value.ToString();
+            x.ValorCompra = Convert.ToDouble(VCompra);
+            x.Disponibilidade = true;
+            status = GridDados.CurrentRow.Cells[7].Value.ToString();
+            _LVeiculos[GridDados.CurrentRow.Index] = x;
+        }
+        public void ExcluirVeiculo()
+        {
+            _LVeiculos.RemoveAt(GridDados.CurrentRow.Index);
+            XML_Salvar();
+            GridVeiculos();
+        }
+        public void AlterarVeiculo()
+        {
+            //bloquear a inserção de um novo dado a esmo depois de ter inserido os dados
+            XML_Salvar();
+        }
+        public void PesquisarVeiculo()
+        {
+            string Busca = BtnPesquisa.Text;
+
+            BtnPesquisa.Text = "";
+
+            GridDados.ClearSelection();
+
+            for (int i = 0; i < GridDados.RowCount; i++)
+            {
+                if (GridDados.Rows[i].Cells[0].Value.ToString() == Busca)
+                {
+                    GridDados.CurrentCell = GridDados.Rows[i].Cells[0];
+                }
+            }
+        }
+        //operações feitas em clientes        
+        public void InserirCliente()
+        {
+            Codes.Clientes NCliente = new Codes.Clientes();
+
+            NCliente.Nome = "Nome";
+            NCliente.Rg = "RG";
+            NCliente.Cpf = "CPF";
+            NCliente.Telefone = "Telefone";
+            NCliente.EndereçoRua = "Rua";
+            NCliente.EndereçoNum = "Número";
+            NCliente.EndereçoBairro = "Bairro";
+            NCliente.EndereçoCep = "CEP";
+            NCliente.EndereçoCidade = "Cidade";
+            NCliente.EndereçoEstado = "Estado";
+
+            _LClientes.Add(NCliente);
+            XML_Salvar();
+            GridCliente();
+
+            GridDados.CurrentCell = GridDados.Rows[GridDados.RowCount - 1].Cells[0];
+        }
+        public void InserirClienteCell()
+        {
+            Codes.Clientes x = new Codes.Clientes();
+
+            x.Nome = GridDados.CurrentRow.Cells[0].Value.ToString();
+            x.Rg = GridDados.CurrentRow.Cells[1].Value.ToString();
+            x.Cpf = GridDados.CurrentRow.Cells[2].Value.ToString();
+            x.Telefone = GridDados.CurrentRow.Cells[3].Value.ToString();
+            x.EndereçoRua = GridDados.CurrentRow.Cells[4].Value.ToString();
+            x.EndereçoNum = GridDados.CurrentRow.Cells[5].Value.ToString();
+            x.EndereçoBairro = GridDados.CurrentRow.Cells[6].Value.ToString();
+            x.EndereçoCep = GridDados.CurrentRow.Cells[7].Value.ToString();
+            x.EndereçoCidade = GridDados.CurrentRow.Cells[8].Value.ToString();
+            x.EndereçoEstado = GridDados.CurrentRow.Cells[9].Value.ToString();
+
+            _LClientes[GridDados.CurrentRow.Index] = x;
+
+            GridDados.CurrentCell = GridDados.Rows[GridDados.RowCount - 1].Cells[0];
+
+        }
+        public void ExcluirCliente()
+        {
+            _LClientes.RemoveAt(GridDados.CurrentRow.Index);
+            XML_Salvar();
+            GridCliente();
+        }
+        public void AlterarCliente()
+        {
+            //fazer um metodo de alteração do objeto
+        }
+        public void PesquisarCliente()
+        {
+            string Busca = BtnPesquisa.Text;
+
+            BtnPesquisa.Text = "";
+
+            GridDados.ClearSelection();
+
+            for (int i = 0; i < GridDados.RowCount; i++)
+            {
+                if (GridDados.Rows[i].Cells[0].Value.ToString() == Busca)
+                {
+                    GridDados.CurrentCell = GridDados.Rows[i].Cells[0];
+                }
+            }
+        }
+
+        //operações feitas em vendas
+        public void Vender()//Veiculo x, Cliente y
+        {
+            Codes.Vender NVenda = new Codes.Vender();
+            Codes.RelatorioVendas RelVendas = new Codes.RelatorioVendas();
+            Codes.RelatorioFinal RelFinal = new Codes.RelatorioFinal();           
+            string VVenda;
+
+            RelVendas.Cliente = NVenda.NCliente = GridDados.CurrentRow.Cells[0].Value.ToString();
+            RelFinal.Veiculo = RelVendas.Modelo = NVenda.Modelo = GridDados.CurrentRow.Cells[1].Value.ToString();
+            NVenda.Placa = GridDados.CurrentRow.Cells[2].Value.ToString();
+            NVenda.Ano = GridDados.CurrentRow.Cells[3].Value.ToString();
+            VVenda = GridDados.CurrentRow.Cells[4].Value.ToString();
+            RelFinal.ValorVenda = RelVendas.Valor = NVenda.ValorVenda = Convert.ToDouble(VVenda);
+            RelVendas.Pagamento = NVenda.FormaPag = GridDados.CurrentRow.Cells[5].Value.ToString();
+
+            foreach (Codes.Veiculos x in _LVeiculos)
+            {
+                if (NVenda.Modelo == x.Modelo)
+                {
+                    x.Disponibilidade = false;
+                    RelFinal.ValorCompra = x.ValorCompra;
+                }
+            }
+            //adiciona a venda no arrylist das vendas
+            _LVendas.Add(NVenda);
+            _LRelVendas.Add(RelVendas);
+            _LRelFinal.Add(RelFinal);
+
+            XML_Salvar();
+            GridVendas();
+
+            GridDados.CurrentCell = GridDados.Rows[GridDados.RowCount - 1].Cells[0];
+        }
+        public void VenderCell()
+        {
+            Codes.Vender x = new Codes.Vender();
+            string VVenda;
+            x.NCliente = GridDados.CurrentRow.Cells[0].Value.ToString();
+            x.Modelo = GridDados.CurrentRow.Cells[1].Value.ToString();
+            x.Placa = GridDados.CurrentRow.Cells[3].Value.ToString();
+            x.Ano = GridDados.CurrentRow.Cells[4].Value.ToString();
+            VVenda = GridDados.CurrentRow.Cells[5].Value.ToString();
+            x.ValorVenda = Convert.ToDouble(VVenda);
+            x.FormaPag = GridDados.CurrentRow.Cells[6].Value.ToString();
+
+            _LVendas[GridDados.CurrentRow.Index] = x;
+        }
+
+        public void ExcluirVenda()
+        {
+            _LVendas.RemoveAt(GridDados.CurrentRow.Index);
+            GridVendas();
+
+        }
+        public void AlterarVenda()
+        {
+            //cria/chama um metodo de alteração de dados 
+
+        }
+        public void PesquisarVenda()
+        {
+            //faz a busca no box sem clicar no botao pelo menos foi a tentativa
+
+            string Busca = BtnPesquisa.Text;
+
+            BtnPesquisa.Text = "";
+
+            GridDados.ClearSelection();
+
+            for (int i = 0; i < GridDados.RowCount; i++)
+            {
+                if (GridDados.Rows[i].Cells[0].Value.ToString() == Busca)
+                {
+                    GridDados.CurrentCell = GridDados.Rows[i].Cells[0];
+                }
+            }
+        }        
+    }
+} //final forms
