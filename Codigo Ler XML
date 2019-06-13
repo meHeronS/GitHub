@@ -1,16 +1,16 @@
-public int LerXMLAlunos()
+ private int AbrirXML(object sender, EventArgs e)
         {
-            FileStream Arquivo = new FileStream(@"D:\CadastroAlunos.xml", FileMode.Open);
+            FileStream Arquivo = new FileStream(@"C:\RelatorioFinal.xml", FileMode.Open);
 
-            Aluno[] ListaAlunoVetor = (Aluno[])Cadastro.ToArray(typeof(Aluno));
+            Codes.RelatorioFinal[] ListaAlunoVetor = (Codes.RelatorioFinal[])_LRelFinal.ToArray(typeof(Codes.RelatorioFinal));
 
             XmlSerializer Desserialização = new XmlSerializer(ListaAlunoVetor.GetType());
 
-            ListaAlunoVetor = (Aluno[])Desserialização.Deserialize(Arquivo);
+            ListaAlunoVetor = (Codes.RelatorioFinal[])Desserialização.Deserialize(Arquivo);
 
-            Cadastro.Clear();
+            _LRelFinal.Clear();
 
-            Cadastro.AddRange(ListaAlunoVetor);
+            _LRelFinal.AddRange(ListaAlunoVetor);
 
-            return Cadastro.Count;
+            return _LRelFinal.Count;
         }
