@@ -2,7 +2,7 @@
         {
             FileStream Arquivo = new FileStream(@"C:\RelatorioFinal.xml", FileMode.Open);
 
-            Codes.RelatorioFinal[] ListaAlunoVetor = (Codes.RelatorioFinal[])_LRelFinal.ToArray(typeof(Codes.RelatorioFinal));
+            Codes.RelatorioFinal[] ListaRelFinal = (Codes.RelatorioFinal[])_LRelFinal.ToArray(typeof(Codes.RelatorioFinal));
 
             XmlSerializer Desserialização = new XmlSerializer(ListaAlunoVetor.GetType());
 
